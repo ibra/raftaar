@@ -79,16 +79,15 @@ std::vector<std::string> get_random_words(int count) {
 }
 
 void run_words_mode() {
-  const int FIXED_WORD_COUNT = 25;
-
+  const int FIXED_WORD_COUNT = 5;
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
 
   std::string input;
   std::vector<std::string> wordlist = get_random_words(FIXED_WORD_COUNT);
 
-  int currently_typed_word = 0;
+  int current_index = 0;
   int correct_words = 0;
-  int total_typed_words = 0;
+  int total_typed = 0;
 
   bool started = false;
   auto start_time = std::chrono::steady_clock::now();
@@ -97,44 +96,79 @@ void run_words_mode() {
   double wpm = 0.0;
   double accuracy = 100.0;
 
-  auto input_component = Input(&input, "Start typing...");
-  auto back_button = Button("Go Back", [&] { screen.ExitLoopClosure()(); });
-
-  auto container = Container::Vertical({
-      input_component,
-      back_button,
-  });
-
-  std::string paragraph_text;
-  for (auto &word : wordlist) {
-    paragraph_text += word + " ";
-  }
-
-  auto stats_box = vbox({
-      text("WPM: " + std::to_string(static_cast<int>(wpm)) + " wpm"),
-      text("Accuracy: " + std::to_string(static_cast<int>(accuracy)) + "%"),
-  });
+  auto input_component = Input(&input, "TYPE HERE...");
+  auto back_button = Button("GO BACK", [&] { screen.ExitLoopClosure()(); });
+  auto container = Container::Vertical({input_component, back_button});
 
   auto renderer = Renderer(container, [&] {
+    std::vector<Element> word_elements;
+
+    // todo: this works, but many words dont wrap for some reason
+    for (int i = 0; i < FIXED_WORD_COUNT; i++) {
+      std::string &word = wordlist[i];
+      Element e = text(word);
+
+      if (i < current_index) {
+        e |= (i < correct_words ? color(Color::GreenLight)
+                                            : color(Color::RedLight));
+      } else if (i == current_index) {
+        e |= bold | color(Color::YellowLight);
+      }
+
+      word_elements.push_back(e);
+      word_elements.push_back(text(" "));
+    }
+
+    auto paragraph = hbox(std::move(word_elements)) | border;
+
+    auto stats_box =
+        vbox({
+            text("WPM: " + std::to_string(static_cast<int>(wpm))),
+            text("Accuracy: " + std::to_string(static_cast<int>(accuracy)) +
+                 "%"),
+        }) |
+        center;
+
     return vbox({
-               text("words mode") | bold | center,
+               text("WORDS MODE") | bold | center,
                separator(),
-               text(paragraph_text) | border | size(HEIGHT, LESS_THAN, 10),
+               paragraph,
                separator(),
-               stats_box | center,
+               stats_box,
                separator(),
                input_component->Render(),
                separator(),
                back_button->Render(),
            }) |
-           border | size(WIDTH, EQUAL, 80) | center;
+           border | size(WIDTH, EQUAL, 120) | center | vcenter;
   });
 
-  // todo: implement catchevent for space to process words, this is a sample
-  // taken from the docs
   renderer |= CatchEvent([&](Event event) {
-    if (event == Event::Character('q')) {
-      screen.ExitLoopClosure()();
+    if (event == Event::Character(' ')) {
+      if (!started) {
+        started = true;
+        start_time = std::chrono::steady_clock::now();
+      }
+
+      if (current_index < FIXED_WORD_COUNT) {
+        total_typed++;
+
+        std::string expected = wordlist[current_index];
+        std::string typed = input;
+
+        if (typed == expected)
+          correct_words++;
+
+        current_index++;
+        input.clear();
+
+        end_time = std::chrono::steady_clock::now();
+        wpm = calculate_wpm(correct_words, start_time, end_time);
+        accuracy = total_typed > 0 ? (double)correct_words / total_typed * 100.0
+                                   : 100.0;
+
+        screen.Post(Event::Custom); // refresh the screen after event triggered
+      }
       return true;
     }
     return false;
