@@ -127,7 +127,7 @@ void run_words_mode() {
                separator(),
                back_button->Render(),
            }) |
-           center | border;
+           border | size(WIDTH, EQUAL, 80) | center;
   });
 
   // todo: implement catchevent for space to process words, this is a sample
