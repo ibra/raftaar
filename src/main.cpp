@@ -1,8 +1,12 @@
 #include <SFML/Graphics.hpp>
+#include <cstdlib>
+#include <fstream>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
+#include <ftxui/dom/flexbox_config.hpp>
 #include <string>
+#include <vector>
 
 using namespace ftxui;
 
@@ -38,37 +42,104 @@ void run_stats_page() {
   }
 }
 
-void run_typing_test(GameMode mode) {}
+std::vector<std::string> get_random_words(int count) {
+  std::vector<std::string> words;
+  std::ifstream file("assets/words_alpha.txt");
+
+  std::string word;
+
+  if (!file.is_open())
+    return {"error: couldn't open the file."};
+
+  while (file >> word)
+    words.push_back(word);
+
+  if (words.empty())
+    return {"error: couldnt find any words in the file."};
+
+  std::vector<std::string> result;
+  for (int i = 0; i < count; ++i)
+    result.push_back(words[rand() % words.size()]);
+
+  return result;
+}
+
+void run_words_mode() {
+  const int FIXED_WORD_COUNT = 25;
+
+  ScreenInteractive screen = ScreenInteractive::Fullscreen();
+
+  std::string input;
+  std::vector<std::string> wordlist = get_random_words(FIXED_WORD_COUNT);
+
+  int currently_typed_word = 0;
+
+  auto input_component = Input(&input, "Start typing...");
+  auto back_button = Button("Go Back", [&] { screen.ExitLoopClosure()(); });
+
+  auto container = Container::Vertical({
+      input_component,
+      back_button,
+  });
+
+  std::string paragraph_text;
+  for (auto &word : wordlist) {
+    paragraph_text += word + " ";
+  }
+
+  auto renderer = Renderer(container, [&] {
+    return vbox({
+               text("words mode") | bold | center,
+               separator(),
+               text(paragraph_text) | border | size(HEIGHT, LESS_THAN, 10),
+               separator(),
+               input_component->Render(),
+               separator(),
+               back_button->Render(),
+           }) |
+           center | border;
+  });
+  screen.Loop(renderer);
+}
 
 int main() {
-  ScreenInteractive screen = ScreenInteractive::TerminalOutput();
+  ScreenInteractive screen = ScreenInteractive::Fullscreen();
   GameMode mode = GameMode::STARTING;
   bool open_stats_page = false;
 
-  if (mode == GameMode::STARTING) {
-    auto words_mode_button =
-        Button("Words Mode", [&] { run_typing_test(GameMode::MODE_WORDS); });
-    auto timed_mode_button =
-        Button("Timed Mode", [&] { run_typing_test(GameMode::MODE_TIMED); });
-    auto equation_mode_button = Button(
-        "Equation Mode", [&] { run_typing_test(GameMode::MODE_EQUATION); });
+  srand(time(0));
 
-    auto dashboard_button = Button("Open Dashboard", [&] {
-      open_stats_page = true;
+  if (mode == GameMode::STARTING) {
+    auto words_mode_button = Button("WORDS MODE", [&] {
+      mode = GameMode::MODE_WORDS;
+      run_words_mode();
+    });
+    auto timed_mode_button = Button("TIMED MODE", [&] {
+      mode = GameMode::MODE_WORDS;
+      run_words_mode();
+    });
+    auto equation_mode_button = Button("EQUATION MODE", [&] {
+      mode = GameMode::MODE_WORDS;
+      run_words_mode();
+    });
+
+    auto dashboard_button = Button("OPEN DASHBOARD", [&] {
+      mode = GameMode::STATS;
       screen.ExitLoopClosure()();
     });
 
-    auto quit_button = Button("Quit", [&] {
+    auto quit_button = Button("QUIT", [&] {
       mode = GameMode::QUITTING;
       screen.ExitLoopClosure()();
     });
 
-    auto container = Container::Vertical(
-        {words_mode_button, timed_mode_button, equation_mode_button});
+    auto container = Container::Vertical({words_mode_button, timed_mode_button,
+                                          equation_mode_button,
+                                          dashboard_button, quit_button});
 
     auto ui = Renderer(container, [&] {
       return vbox({
-                 text("raftaar - main menu"),
+                 text("RAFTAAR - MAIN MENU"),
                  separator(),
                  separator(),
                  container->Render(),
@@ -81,5 +152,5 @@ int main() {
     run_stats_page();
   }
 
-    return 0;
+  return 0;
 }
