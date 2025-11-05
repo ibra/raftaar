@@ -42,18 +42,18 @@ void run_stats_page() {
   }
 }
 
-double calculate_wpm(int words_typed,
+double calculate_wpm(int correct_words,
                      std::chrono::steady_clock::time_point start,
                      std::chrono::steady_clock::time_point end) {
+  using namespace std::chrono;
   double elapsed_seconds =
-      duration_cast<std::chrono::duration<double>>(end - start).count();
-  double elapsed_minutes = elapsed_seconds / 60.0;
+      duration_cast<duration<double>>(end - start).count();
 
-  if (elapsed_minutes == 0) {
+  if (elapsed_seconds == 0) {
     return 0.0;
   }
 
-  return words_typed / elapsed_minutes;
+  return (correct_words * 60.0) / elapsed_seconds;
 }
 
 std::vector<std::string> get_random_words(int count) {
