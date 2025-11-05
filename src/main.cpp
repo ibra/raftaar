@@ -42,6 +42,20 @@ void run_stats_page() {
   }
 }
 
+double calculate_wpm(int words_typed,
+                     std::chrono::steady_clock::time_point start,
+                     std::chrono::steady_clock::time_point end) {
+  double elapsed_seconds =
+      duration_cast<std::chrono::duration<double>>(end - start).count();
+  double elapsed_minutes = elapsed_seconds / 60.0;
+
+  if (elapsed_minutes == 0) {
+    return 0.0;
+  }
+
+  return words_typed / elapsed_minutes;
+}
+
 std::vector<std::string> get_random_words(int count) {
   std::vector<std::string> words;
   std::ifstream file("assets/words_alpha.txt");
@@ -73,7 +87,12 @@ void run_words_mode() {
   std::vector<std::string> wordlist = get_random_words(FIXED_WORD_COUNT);
 
   int currently_typed_word = 0;
+  int correct_words = 0;
+  int total_typed_words = 0;
+
+  bool started = false;
   auto start_time = std::chrono::steady_clock::now();
+  auto end_time = start_time;
 
   double wpm = 0.0;
   double accuracy = 100.0;
@@ -91,11 +110,18 @@ void run_words_mode() {
     paragraph_text += word + " ";
   }
 
+  auto stats_box = vbox({
+      text("WPM: " + std::to_string(static_cast<int>(wpm)) + " wpm"),
+      text("Accuracy: " + std::to_string(static_cast<int>(accuracy)) + "%"),
+  });
+
   auto renderer = Renderer(container, [&] {
     return vbox({
                text("words mode") | bold | center,
                separator(),
                text(paragraph_text) | border | size(HEIGHT, LESS_THAN, 10),
+               separator(),
+               stats_box | center,
                separator(),
                input_component->Render(),
                separator(),
@@ -104,7 +130,8 @@ void run_words_mode() {
            center | border;
   });
 
-  // todo: implement catchevent for space to process words, this is a sample taken from the docs 
+  // todo: implement catchevent for space to process words, this is a sample
+  // taken from the docs
   renderer |= CatchEvent([&](Event event) {
     if (event == Event::Character('q')) {
       screen.ExitLoopClosure()();
