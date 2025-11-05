@@ -79,7 +79,7 @@ std::vector<std::string> get_random_words(int count) {
 }
 
 void run_words_mode() {
-  const int FIXED_WORD_COUNT = 5;
+  const int FIXED_WORD_COUNT = 50;
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
 
   std::string input;
