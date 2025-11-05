@@ -73,6 +73,10 @@ void run_words_mode() {
   std::vector<std::string> wordlist = get_random_words(FIXED_WORD_COUNT);
 
   int currently_typed_word = 0;
+  auto start_time = std::chrono::steady_clock::now();
+
+  double wpm = 0.0;
+  double accuracy = 100.0;
 
   auto input_component = Input(&input, "Start typing...");
   auto back_button = Button("Go Back", [&] { screen.ExitLoopClosure()(); });
@@ -99,6 +103,16 @@ void run_words_mode() {
            }) |
            center | border;
   });
+
+  // todo: implement catchevent for space to process words, this is a sample taken from the docs 
+  renderer |= CatchEvent([&](Event event) {
+    if (event == Event::Character('q')) {
+      screen.ExitLoopClosure()();
+      return true;
+    }
+    return false;
+  });
+
   screen.Loop(renderer);
 }
 
