@@ -110,7 +110,7 @@ void run_words_mode() {
 
       if (i < current_index) {
         e |= (i < correct_words ? color(Color::GreenLight)
-                                            : color(Color::RedLight));
+                                : color(Color::RedLight));
       } else if (i == current_index) {
         e |= bold | color(Color::YellowLight);
       }
@@ -208,16 +208,19 @@ int main() {
       screen.ExitLoopClosure()();
     });
 
-    auto container = Container::Vertical({words_mode_button, timed_mode_button,
-                                          equation_mode_button,
-                                          dashboard_button, quit_button});
+    auto modes_container = Container::Horizontal(
+        {words_mode_button, timed_mode_button, equation_mode_button});
+    auto options_container =
+        Container::Vertical({dashboard_button, quit_button});
+    auto overall_container =
+        Container::Vertical({modes_container, options_container});
 
-    auto ui = Renderer(container, [&] {
+    auto ui = Renderer(overall_container, [&] {
       return vbox({
                  text("RAFTAAR - MAIN MENU"),
                  separator(),
                  separator(),
-                 container->Render(),
+                 overall_container->Render(),
              }) |
              center | border;
     });
