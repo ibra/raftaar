@@ -1,7 +1,7 @@
 #include "mode_stats.hpp"
 #include "mode_types.hpp"
 #include "mode_words.hpp"
-#include "mode_words.hpp"
+#include "mode_equations.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <ftxui/component/component.hpp>
@@ -17,8 +17,8 @@ int main() {
 
   // todo: implement timed and equation mode
   auto words_mode_button = Button("WORDS MODE", [&] { run_words_mode(); });
-  auto timed_mode_button = Button("EQUATION MODE", [&] { run_words_mode(); });
-  auto equation_mode_button = Button("TIMED MODE", [&] { run_words_mode(); });
+  auto timed_mode_button = Button("EQUATION MODE", [&] { run_equations_mode(); });
+  auto equation_mode_button = Button("TIMED MODE", [&] { });
 
   auto stats_button = Button("OPEN DASHBOARD", [&] { run_stats_page(); });
   auto quit_button = Button("QUIT", [&] { screen.ExitLoopClosure()(); });

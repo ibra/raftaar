@@ -31,7 +31,7 @@ std::vector<std::string> generate_equations(int count) {
            "x=" + std::to_string(c);
       break;
     case 2:
-      eq = "\\int{x^" + std::to_string(n) + "}dx";
+      eq = "\\x^" + std::to_string(n) + "";
       break;
     case 3:
       eq =
@@ -57,6 +57,7 @@ std::vector<std::string> generate_equations(int count) {
       eq = std::to_string(a) + "\\sin(x)+" + std::to_string(b) + "\\cos(x)";
       break;
     }
+
     equations.push_back(eq);
   }
 
@@ -64,7 +65,7 @@ std::vector<std::string> generate_equations(int count) {
 }
 
 void run_equations_mode() {
-  const int FIXED_EQUATION_COUNT = 50;
+  const int FIXED_EQUATION_COUNT = 10;
 
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
   std::string input;

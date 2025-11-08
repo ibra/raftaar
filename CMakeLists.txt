@@ -25,6 +25,7 @@ set(SOURCES
     src/main.cpp
     src/mode_utils.cpp
     src/mode_words.cpp
+    src/mode_equations.cpp
     src/mode_stats.cpp
 )
 
