@@ -1,6 +1,7 @@
 #include "mode_stats.hpp"
 #include "mode_types.hpp"
 #include "mode_words.hpp"
+#include "mode_words.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <ftxui/component/component.hpp>

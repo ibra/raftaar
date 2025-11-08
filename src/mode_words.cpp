@@ -10,20 +10,18 @@ using namespace ftxui;
 void run_words_mode() {
   const int FIXED_WORD_COUNT = 50;
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
-
   std::string input;
   auto wordlist = get_random_words(FIXED_WORD_COUNT);
-
   int current_index = 0;
   int correct_words = 0;
   int total_typed = 0;
-
   bool started = false;
   auto start_time = std::chrono::steady_clock::now();
   auto end_time = start_time;
-
   double wpm = 0.0;
   double accuracy = 100.0;
+
+  std::vector<bool> word_correctness(FIXED_WORD_COUNT, false);
 
   auto input_component = Input(&input, "TYPE HERE...");
   auto back_button = Button("GO BACK", [&] { screen.ExitLoopClosure()(); });
@@ -34,24 +32,23 @@ void run_words_mode() {
     for (int i = 0; i < FIXED_WORD_COUNT; i++) {
       auto &word = wordlist[i];
       Element e = text(word);
-      if (i < current_index)
-        e |= (i < correct_words ? color(Color::GreenLight)
-                                : color(Color::RedLight));
-      else if (i == current_index)
+      if (i < current_index) {
+        e |= (word_correctness[i] ? color(Color::GreenLight)
+                                  : color(Color::RedLight));
+      } else if (i == current_index) {
         e |= bold | color(Color::YellowLight);
+      }
       word_elements.push_back(e);
       word_elements.push_back(text(" "));
     }
 
     auto paragraph = hflow(std::move(word_elements)) | border;
-
     auto stats_box =
         vbox({
             text("WPM: " + std::to_string((int)wpm)),
             text("Accuracy: " + std::to_string((int)accuracy) + "%"),
         }) |
         center;
-
     return vbox({
                text("WORDS MODE") | bold | center,
                separator(),
@@ -74,11 +71,16 @@ void run_words_mode() {
       }
       if (current_index < FIXED_WORD_COUNT) {
         total_typed++;
-        if (input == wordlist[current_index])
+        bool is_correct = (input == wordlist[current_index]);
+        word_correctness[current_index] = is_correct;
+
+        if (is_correct)
           correct_words++;
         current_index++;
+
         input.clear();
         end_time = std::chrono::steady_clock::now();
+
         wpm = calculate_wpm(correct_words, start_time, end_time);
         accuracy = (double)correct_words / total_typed * 100.0;
         screen.Post(Event::Custom);
@@ -87,6 +89,5 @@ void run_words_mode() {
     }
     return false;
   });
-
   screen.Loop(renderer);
 }
