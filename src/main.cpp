@@ -16,7 +16,6 @@ int main() {
 
   GameMode mode = GameMode::STARTING;
 
-  // todo: implement timed and equation mode
   auto words_mode_button = Button("WORDS MODE", [&] { run_words_mode(); });
   auto timed_mode_button = Button("EQUATION MODE", [&] { run_equations_mode(); });
   auto equation_mode_button = Button("TIMED MODE", [&] { run_timed_mode(); });

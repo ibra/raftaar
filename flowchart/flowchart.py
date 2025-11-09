@@ -31,7 +31,7 @@ dot.node('exit', 'EXIT', shape='ellipse', fillcolor='#e74c3c')
 
 dot.attr('node', fillcolor='#ecf0f1', fontcolor='black', shape='box', style='filled')
 dot.node('util1', 'calculate_wpm()', fontname='Courier')
-dot.node('util2', 'get_random_words()', fontname='Courier')
+dot.node('util2', 'get_random_words()\n(sourced from assets/words_alpha.txt)', fontname='Courier')
 
 dot.edge('start', 'menu')
 dot.edge('menu', 'choice')
