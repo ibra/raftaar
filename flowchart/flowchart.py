@@ -25,7 +25,7 @@ dot.attr('node', fillcolor='#2980b9')
 dot.node('gameloop', 'Game Loop\nDisplay & Input')
 dot.node('calc', 'Calculate\nWPM & Accuracy')
 dot.node('save', 'Save Statistics\nto File')
-dot.node('again', 'Play Again?', shape='diamond', fillcolor='#e67e22')
+dot.node('again', 'Go Back?', shape='diamond', fillcolor='#e67e22')
 
 dot.node('exit', 'EXIT', shape='ellipse', fillcolor='#e74c3c')
 
@@ -50,7 +50,7 @@ dot.edge('gameloop', 'calc')
 dot.edge('calc', 'save')
 dot.edge('save', 'again')
 dot.edge('again', 'exit')
-dot.edge('again', 'gameloop', style='dashed')
+dot.edge('again', 'choice', style='dashed')
 
 dot.edge('stats', 'exit', style='dashed')
 
