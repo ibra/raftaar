@@ -2,8 +2,10 @@
 #include "mode_words.hpp"
 #include "mode_equations.hpp"
 #include "mode_timed.hpp"
+
 #include <cstdlib>
 #include <ctime>
+
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 
