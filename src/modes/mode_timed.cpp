@@ -70,7 +70,7 @@ int get_remaining_time(std::chrono::steady_clock::time_point start_time,
 
 void run_timed_mode()
 {
-  const int DURATION_SECONDS = 60;
+  const int DURATION_SECONDS = 15;
   const int WORDS_BATCH_SIZE = 50;
 
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
@@ -214,5 +214,18 @@ void run_timed_mode()
     } 
     return false; });
 
+  std::thread timer_thread([&screen, &started, &finished]()
+                           {
+    while (true) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      if (started && !finished) {
+        screen.Post(Event::Custom);
+      }
+      if (finished) {
+        break;
+      }
+    } });
+
   screen.Loop(renderer);
+  timer_thread.join();
 }
