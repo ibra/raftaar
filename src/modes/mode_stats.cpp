@@ -197,7 +197,7 @@ void run_stats_page()
         auto words = create_text(wordsText, font, 18, gray_text, 700, rowY + 20);
         window.draw(words);
 
-        rowY += 100;
+        rowY += 70;
       }
     }
 

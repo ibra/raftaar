@@ -32,10 +32,10 @@ std::vector<std::string> generate_equations(int count)
             break;
         case 3:
             eq =
-                "dy/dx = " + std::to_string(a) + "x^" + std::to_string(n);
+                "dy/dx=" + std::to_string(a) + "x^" + std::to_string(n);
             break;
         case 4:
-            eq = "int(" + std::to_string(a) + "x^" + std::to_string(n) + ") dx";
+            eq = "int(" + std::to_string(a) + "x^" + std::to_string(n) + ")dx";
             break;
         case 5:
             eq = std::to_string(a) + "x+" + std::to_string(b) +
