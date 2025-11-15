@@ -89,7 +89,8 @@ dot.edge("again", "choice", style="dashed")
 dot.edge("stats", "exit", style="dashed")
 
 dot.edge("calc", "util1", style="dotted", color="#3498db")
-dot.edge("gameloop", "util2", style="dotted", color="#3498db")
+dot.edge("calc", "util1", style="dotted", color=COLOR_HEADER)
+dot.edge("gameloop", "util2", style="dotted", color=COLOR_HEADER)
 
 dot.render("raftaar_flowchart", format="pdf", cleanup=True)
 print("done w flowchart")
