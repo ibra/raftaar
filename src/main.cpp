@@ -10,18 +10,24 @@
 
 using namespace ftxui;
 
-int main() {
+int main()
+{
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
   srand(time(0));
 
   GameMode mode = GameMode::STARTING;
 
-  auto words_mode_button = Button("WORDS MODE", [&] { run_words_mode(); });
-  auto timed_mode_button = Button("EQUATION MODE", [&] { run_equations_mode(); });
-  auto equation_mode_button = Button("TIMED MODE", [&] { run_timed_mode(); });
+  auto words_mode_button = Button("WORDS MODE", [&]
+                                  { run_words_mode(); });
+  auto timed_mode_button = Button("EQUATION MODE", [&]
+                                  { run_equations_mode(); });
+  auto equation_mode_button = Button("TIMED MODE", [&]
+                                     { run_timed_mode(); });
 
-  auto stats_button = Button("OPEN DASHBOARD", [&] { run_stats_page(); });
-  auto quit_button = Button("QUIT", [&] { screen.ExitLoopClosure()(); });
+  auto stats_button = Button("OPEN DASHBOARD", [&]
+                             { run_stats_page(); });
+  auto quit_button = Button("QUIT", [&]
+                            { screen.ExitLoopClosure()(); });
 
   auto modes_container = Container::Horizontal(
       {words_mode_button, timed_mode_button, equation_mode_button});
@@ -33,15 +39,14 @@ int main() {
       menu_container,
   });
 
-  auto ui = Renderer(main_container, [&] {
-    return vbox({
-               text("RAFTAAR - MAIN MENU"),
-               separator(),
-               modes_container->Render(),
-               menu_container->Render(),
-           }) |
-           center | border;
-  });
+  auto ui = Renderer(main_container, [&]
+                     { return vbox({
+                                  text("RAFTAAR - MAIN MENU"),
+                                  separator(),
+                                  modes_container->Render(),
+                                  menu_container->Render(),
+                              }) |
+                              center | border; });
   screen.Loop(ui);
   return 0;
 }

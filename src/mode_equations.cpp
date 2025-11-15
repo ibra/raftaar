@@ -8,11 +8,13 @@
 #include <vector>
 using namespace ftxui;
 
-std::vector<std::string> generate_equations(int count) {
+std::vector<std::string> generate_equations(int count)
+{
   std::vector<std::string> equations;
   srand(time(0));
 
-  for (int i = 0; i < count; i++) {
+  for (int i = 0; i < count; i++)
+  {
     int type = rand() % 10;
 
     // generating a bunch of random constants here that can be plugged into the equations
@@ -22,7 +24,8 @@ std::vector<std::string> generate_equations(int count) {
     int n = (rand() % 4) + 2;
 
     std::string eq;
-    switch (type) {
+    switch (type)
+    {
     case 0:
       eq = "x^2+" + std::to_string(b) + "x+" + std::to_string(c) + "=0";
       break;
@@ -64,7 +67,8 @@ std::vector<std::string> generate_equations(int count) {
   return equations;
 }
 
-void run_equations_mode() {
+void run_equations_mode()
+{
   const int FIXED_EQUATION_COUNT = 10;
 
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
@@ -85,11 +89,13 @@ void run_equations_mode() {
   std::vector<bool> equation_correctness(FIXED_EQUATION_COUNT, false);
 
   auto input_component = Input(&input, "TYPE HERE...");
-  auto back_button = Button("GO BACK", [&] { screen.ExitLoopClosure()(); });
+  auto back_button = Button("GO BACK", [&]
+                            { screen.ExitLoopClosure()(); });
 
   auto container = Container::Vertical({input_component, back_button});
 
-  auto renderer = Renderer(container, [&] {
+  auto renderer = Renderer(container, [&]
+                           {
     std::vector<Element> equation_elements;
     for (int i = 0; i < FIXED_EQUATION_COUNT; i++) {
       auto &equation = equationlist[i];
@@ -122,10 +128,10 @@ void run_equations_mode() {
                separator(),
                back_button->Render(),
            }) |
-           border | size(WIDTH, EQUAL, 120) | center | vcenter;
-  });
+           border | size(WIDTH, EQUAL, 120) | center | vcenter; });
 
-  renderer |= CatchEvent([&](Event event) {
+  renderer |= CatchEvent([&](Event event)
+                         {
     if (event == Event::Character(' ')) {
       if (!started) {
         started = true;
@@ -146,8 +152,7 @@ void run_equations_mode() {
       }
       return true;
     }
-    return false;
-  });
+    return false; });
 
   screen.Loop(renderer);
 }

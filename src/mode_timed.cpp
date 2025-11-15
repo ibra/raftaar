@@ -7,35 +7,47 @@
 #include <vector>
 using namespace ftxui;
 
-// todo: the falling words effect visibility technique isn't working 
+// todo: the falling words effect visibility technique isn't working
 // try another way that hopefully worksss
 std::vector<Element>
 create_falling_words(const std::vector<std::string> &wordlist,
                      const std::vector<bool> &word_correctness,
-                     int current_index, int visible_start) {
+                     int current_index, int visible_start)
+{
   std::vector<Element> lines;
   int words_per_line = 8;
 
-  for (int line = 0; line < 5; line++) {
+  for (int line = 0; line < 5; line++)
+  {
     std::vector<Element> line_elements;
-    for (int w = 0; w < words_per_line; w++) {
+    for (int w = 0; w < words_per_line; w++)
+    {
       int idx = visible_start + line * words_per_line + w;
-      if (idx >= wordlist.size()) {
+      if (idx >= wordlist.size())
+      {
         line_elements.push_back(text(""));
-      } else {
+      }
+      else
+      {
         auto &word = wordlist[idx];
         Element e = text(word);
-        if (idx < current_index) {
+        if (idx < current_index)
+        {
           e |= (word_correctness[idx] ? color(Color::GreenLight)
                                       : color(Color::RedLight));
-        } else if (idx == current_index) {
+        }
+        else if (idx == current_index)
+        {
           e |= bold | color(Color::YellowLight);
-        } else {
+        }
+        else
+        {
           e |= dim;
         }
         line_elements.push_back(e);
       }
-      if (w < words_per_line - 1) {
+      if (w < words_per_line - 1)
+      {
         line_elements.push_back(text(" "));
       }
     }
@@ -46,7 +58,8 @@ create_falling_words(const std::vector<std::string> &wordlist,
 }
 
 int get_remaining_time(std::chrono::steady_clock::time_point start_time,
-                       int duration_seconds) {
+                       int duration_seconds)
+{
   auto current_time = std::chrono::steady_clock::now();
   auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(current_time -
                                                                   start_time)
@@ -54,7 +67,8 @@ int get_remaining_time(std::chrono::steady_clock::time_point start_time,
   return duration_seconds - elapsed;
 }
 
-void run_timed_mode() {
+void run_timed_mode()
+{
   const int DURATION_SECONDS = 60;
   const int WORDS_BATCH_SIZE = 50;
 
@@ -81,15 +95,18 @@ void run_timed_mode() {
   std::vector<bool> word_correctness;
   word_correctness.reserve(1000);
 
-  for (int i = 0; i < WORDS_BATCH_SIZE; i++) {
+  for (int i = 0; i < WORDS_BATCH_SIZE; i++)
+  {
     word_correctness.push_back(false);
   }
 
   auto input_component = Input(&input, "TYPE HERE...");
-  auto back_button = Button("GO BACK", [&] { screen.ExitLoopClosure()(); });
+  auto back_button = Button("GO BACK", [&]
+                            { screen.ExitLoopClosure()(); });
   auto container = Container::Vertical({input_component, back_button});
 
-  auto renderer = Renderer(container, [&] {
+  auto renderer = Renderer(container, [&]
+                           {
     if (started && !finished) {
       remaining_time = get_remaining_time(start_time, DURATION_SECONDS);
       if (remaining_time <= 0) {
@@ -158,10 +175,10 @@ void run_timed_mode() {
                separator(),
                back_button->Render(),
            }) |
-           border | size(WIDTH, EQUAL, 120) | center | vcenter;
-  });
+           border | size(WIDTH, EQUAL, 120) | center | vcenter; });
 
-  renderer |= CatchEvent([&](Event event) {
+  renderer |= CatchEvent([&](Event event)
+                         {
     if (finished) {
       return false;
     }
@@ -193,8 +210,7 @@ void run_timed_mode() {
       screen.Post(Event::Custom);
       return true;
     }
-    return false;
-  });
+    return false; });
 
   screen.Loop(renderer);
 }

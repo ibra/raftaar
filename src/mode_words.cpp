@@ -7,7 +7,8 @@
 
 using namespace ftxui;
 
-void run_words_mode() {
+void run_words_mode()
+{
   const int FIXED_WORD_COUNT = 50;
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
   std::string input;
@@ -24,10 +25,12 @@ void run_words_mode() {
   std::vector<bool> word_correctness(FIXED_WORD_COUNT, false);
 
   auto input_component = Input(&input, "TYPE HERE...");
-  auto back_button = Button("GO BACK", [&] { screen.ExitLoopClosure()(); });
+  auto back_button = Button("GO BACK", [&]
+                            { screen.ExitLoopClosure()(); });
   auto container = Container::Vertical({input_component, back_button});
 
-  auto renderer = Renderer(container, [&] {
+  auto renderer = Renderer(container, [&]
+                           {
     std::vector<Element> word_elements;
     for (int i = 0; i < FIXED_WORD_COUNT; i++) {
       auto &word = wordlist[i];
@@ -60,10 +63,10 @@ void run_words_mode() {
                separator(),
                back_button->Render(),
            }) |
-           border | size(WIDTH, EQUAL, 120) | center | vcenter;
-  });
+           border | size(WIDTH, EQUAL, 120) | center | vcenter; });
 
-  renderer |= CatchEvent([&](Event event) {
+  renderer |= CatchEvent([&](Event event)
+                         {
     if (event == Event::Character(' ')) {
       if (!started) {
         started = true;
@@ -87,7 +90,6 @@ void run_words_mode() {
       }
       return true;
     }
-    return false;
-  });
+    return false; });
   screen.Loop(renderer);
 }
