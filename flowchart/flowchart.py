@@ -1,3 +1,6 @@
+# this is a python script i wrote for generating the flowchart.
+# it creates raftaar_flowchart.pdf in the directory.
+
 from graphviz import Digraph
 
 dot = Digraph(comment='RAFTAAR Flowchart')
