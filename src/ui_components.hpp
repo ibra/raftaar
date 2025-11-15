@@ -17,7 +17,7 @@ Element render_stats_box(const Stats &stats);
 Element render_header(const std::string &title);
 Element render_timer(int secondsLeft, int warningLimit = 10);
 
-Element render_items_flow(
+Element render_words_box(
     const std::vector<std::string> &items,
     const std::vector<bool> &correctness,
     int current_index,

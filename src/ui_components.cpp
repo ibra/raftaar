@@ -21,13 +21,13 @@ Element render_timer(int remaining_seconds, int warning_threshold)
                           : Color::GreenLight;
 
     return hbox({
-               text("TIME: ") | bold,
+               text("TIME LEFT: ") | bold,
                text(std::to_string(remaining_seconds) + "s") | color(time_color),
            }) |
            center;
 }
 
-Element render_items_flow(
+Element render_words_box(
     const std::vector<std::string> &items,
     const std::vector<bool> &correctness,
     int current_index,
