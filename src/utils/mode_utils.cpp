@@ -14,6 +14,9 @@ double calculate_wpm(int correct_words,
   return elapsed_seconds == 0 ? 0.0 : (correct_words * 60.0) / elapsed_seconds;
 }
 
+// the word file here was in the public domain and was sourced from
+// https://github.com/MichaelWehar/Public-Domain-Word-Lists/blob/master/5000-more-common.txt
+
 std::vector<std::string> get_random_words(int count)
 {
   std::ifstream file("assets/words_alpha.txt");

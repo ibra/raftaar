@@ -51,5 +51,5 @@ target_link_libraries(raftaar
 add_custom_command(TARGET raftaar POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory
           ${CMAKE_SOURCE_DIR}/assets
-          ${CMAKE_CURRENT_BINARY_DIR}/assets
+          $<TARGET_FILE_DIR:raftaar>/assets
 )
