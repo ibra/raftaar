@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <chrono>
 
+// calculates the words per minute (wpm) based on the number of correct words typed and the elapsed time
+
 double calculate_wpm(int correct_words,
                      std::chrono::steady_clock::time_point start,
                      std::chrono::steady_clock::time_point end)
@@ -36,6 +38,9 @@ std::vector<std::string> get_random_words(int count)
 
   return result;
 }
+
+// handles the space key event during typing tests. if the space key gets pressed
+// and there arent any words left then it saves it to a file permanently with the data handler.
 
 bool handle_space_key(
     TypingState &state,

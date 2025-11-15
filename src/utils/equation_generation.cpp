@@ -2,6 +2,9 @@
 #include <cstdlib>
 #include <ctime>
 
+// this function generatest a list of random mathematical equations for the typing test
+// it follows webwork syntax or latex for the equations to help the user improve
+
 std::vector<std::string> generate_equations(int count)
 {
     std::vector<std::string> equations;
