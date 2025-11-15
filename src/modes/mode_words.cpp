@@ -9,7 +9,7 @@ using namespace ftxui;
 
 void run_words_mode()
 {
-  const int FIXED_WORD_COUNT = 50;
+  const int FIXED_WORD_COUNT = 25;
 
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
   TypingState state;
