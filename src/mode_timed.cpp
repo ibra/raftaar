@@ -7,8 +7,6 @@
 #include <vector>
 using namespace ftxui;
 
-// todo: the falling words effect visibility technique isn't working
-// try another way that hopefully worksss
 std::vector<Element>
 create_falling_words(const std::vector<std::string> &wordlist,
                      const std::vector<bool> &word_correctness,
@@ -183,7 +181,8 @@ void run_timed_mode()
       return false;
     }
 
-    if (event == Event::Character(' ')) {
+    if (event == Event::Character(' ')) 
+    {
       if (!started) {
         started = true;
         start_time = std::chrono::steady_clock::now();
@@ -209,7 +208,7 @@ void run_timed_mode()
       accuracy = (double)correct_words / total_typed * 100.0;
       screen.Post(Event::Custom);
       return true;
-    }
+    } 
     return false; });
 
   screen.Loop(renderer);
