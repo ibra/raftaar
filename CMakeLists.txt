@@ -21,13 +21,11 @@ FetchContent_MakeAvailable(sfml)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-set(SOURCES
-    src/main.cpp
-    src/mode_utils.cpp
-    src/mode_words.cpp
-    src/mode_timed.cpp
-    src/mode_equations.cpp
-    src/mode_stats.cpp
+file(GLOB SOURCES 
+    "src/main.cpp"
+    "src/mode_*.cpp"
+    "src/typing_state.cpp"
+    "src/ui_components.cpp"
 )
 
 add_executable(raftaar ${SOURCES})
