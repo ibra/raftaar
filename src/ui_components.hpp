@@ -1,5 +1,6 @@
 #pragma once
 #include <ftxui/dom/elements.hpp>
+#include <ftxui/component/component.hpp>
 #include <string>
 #include <vector>
 
@@ -22,3 +23,15 @@ Element render_words_box(
     const std::vector<bool> &correctness,
     int current_index,
     int total_items);
+
+struct LayoutElements
+{
+    Element content;
+    Element stats;
+    Element header;
+    Element more; // todo: use this for the timer later
+    Component input;
+    Component back_button;
+};
+
+Element create_default_layout(const LayoutElements &elements, int width = 120);
