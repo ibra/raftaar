@@ -39,6 +39,7 @@ bool handle_space_key(
 {
   if (state.current_index >= max_items)
   {
+    // todo: later maybe store in file here?? if it exceeds then test over
     return false;
   }
 
