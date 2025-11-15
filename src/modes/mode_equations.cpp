@@ -1,7 +1,7 @@
-#include "mode_utils.hpp"
-#include "typing_state.hpp"
-#include "ui_components.hpp"
-#include "equation_generation.hpp"
+#include "utils/mode_utils.hpp"
+#include "core/typing_state.hpp"
+#include "ui/ui_components.hpp"
+#include "utils/equation_generation.hpp"
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
@@ -10,21 +10,21 @@ using namespace ftxui;
 
 void run_equations_mode()
 {
-  const int FIXED_EQUATION_COUNT = 10;
+    const int FIXED_EQUATION_COUNT = 10;
 
-  ScreenInteractive screen = ScreenInteractive::Fullscreen();
-  std::string input;
+    ScreenInteractive screen = ScreenInteractive::Fullscreen();
+    std::string input;
 
-  TypingState state;
-  start_typing_state(state, generate_equations(FIXED_EQUATION_COUNT));
+    TypingState state;
+    start_typing_state(state, generate_equations(FIXED_EQUATION_COUNT));
 
-  auto input_component = Input(&state.input, "TYPE HERE...");
-  auto back_button = Button("GO BACK", [&]
-                            { screen.ExitLoopClosure()(); });
-  auto container = Container::Vertical({input_component, back_button});
+    auto input_component = Input(&state.input, "TYPE HERE...");
+    auto back_button = Button("GO BACK", [&]
+                              { screen.ExitLoopClosure()(); });
+    auto container = Container::Vertical({input_component, back_button});
 
-  auto renderer = Renderer(container, [&]
-                           {
+    auto renderer = Renderer(container, [&]
+                             {
       auto content = render_words_box(
           state.items,
           state.correctness,
@@ -44,12 +44,12 @@ void run_equations_mode()
       
       return create_default_layout(layout); });
 
-  renderer |= CatchEvent([&](Event event)
-                         {
+    renderer |= CatchEvent([&](Event event)
+                           {
       if (event == Event::Character(' ')) {
           return handle_space_key(state, FIXED_EQUATION_COUNT, screen);
       }
       return false; });
 
-  screen.Loop(renderer);
+    screen.Loop(renderer);
 }

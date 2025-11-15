@@ -1,4 +1,4 @@
-#include "ui_components.hpp"
+#include "ui/ui_components.hpp"
 
 Element render_stats_box(const Stats &stats)
 {

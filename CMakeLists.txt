@@ -19,17 +19,22 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(sfml)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+file(GLOB CORE_SOURCES "src/core/*.cpp")
+file(GLOB MODE_SOURCES "src/modes/*.cpp")
+file(GLOB UI_SOURCES "src/ui/*.cpp")
+file(GLOB UTIL_SOURCES "src/utils/*.cpp")
 
-file(GLOB SOURCES 
-    "src/main.cpp"
-    "src/mode_*.cpp"
-    "src/typing_state.cpp"
-    "src/ui_components.cpp"
-    "src/equation_generation.cpp"
+set(SOURCES
+    src/main.cpp
+    ${CORE_SOURCES}
+    ${MODE_SOURCES}
+    ${UI_SOURCES}
+    ${UTIL_SOURCES}
 )
 
 add_executable(raftaar ${SOURCES})
+
+target_include_directories(raftaar PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 target_link_libraries(raftaar
   PRIVATE
@@ -44,4 +49,5 @@ target_link_libraries(raftaar
 add_custom_command(TARGET raftaar POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E copy_directory
           ${CMAKE_SOURCE_DIR}/assets
-          ${CMAKE_CURRENT_BINARY_DIR}/assets)
+          ${CMAKE_CURRENT_BINARY_DIR}/assets
+)

@@ -1,6 +1,7 @@
-#include "mode_utils.hpp"
-#include "typing_state.hpp"
-#include "ui_components.hpp"
+#include "utils/mode_utils.hpp"
+#include "core/typing_state.hpp"
+#include "ui/ui_components.hpp"
+
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 

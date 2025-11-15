@@ -2,7 +2,7 @@
 #include <vector>
 #include <chrono>
 
-#include "typing_state.hpp"
+#include "core/typing_state.hpp"
 #include <ftxui/component/event.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 

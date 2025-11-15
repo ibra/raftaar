@@ -1,7 +1,7 @@
-#include "mode_stats.hpp"
-#include "mode_words.hpp"
-#include "mode_equations.hpp"
-#include "mode_timed.hpp"
+#include "modes/mode_words.hpp"
+#include "modes/mode_equations.hpp"
+#include "modes/mode_timed.hpp"
+#include "modes/mode_stats.hpp"
 
 #include <cstdlib>
 #include <ctime>

@@ -1,10 +1,13 @@
-#include "mode_utils.hpp"
+#include "utils/mode_utils.hpp"
+
 #include <chrono>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 #include <string>
 #include <vector>
+#include <chrono>
+
 using namespace ftxui;
 
 std::vector<Element>

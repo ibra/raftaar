@@ -1,4 +1,5 @@
-#include "mode_utils.hpp"
+#include "utils/mode_utils.hpp"
+
 #include <fstream>
 #include <cstdlib>
 #include <chrono>

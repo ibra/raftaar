@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include "mode_utils.hpp"
+#include "utils/mode_utils.hpp"
 #include <string>
 
 void run_stats_page()

@@ -1,5 +1,5 @@
-#include "typing_state.hpp"
-#include "mode_utils.hpp"
+#include "core/typing_state.hpp"
+#include "utils/mode_utils.hpp"
 
 void update_typing_state(TypingState &state, bool is_correct)
 {
