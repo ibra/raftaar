@@ -24,3 +24,17 @@ void update_typing_state(TypingState &state, bool is_correct)
     state.wpm = calculate_wpm(state.correct_count, state.start_time, state.end_time);
     state.accuracy = (double)state.correct_count / state.total_typed * 100.0;
 }
+
+void start_typing_state(TypingState &state, std::vector<std::string> items)
+{
+    state.items = items;
+    state.correctness.resize(state.items.size(), false);
+
+    state.current_index = 0;
+    state.correct_count = 0;
+    state.total_typed = 0;
+
+    state.started = false;
+    state.wpm = 0.0;
+    state.accuracy = 100.0;
+}
