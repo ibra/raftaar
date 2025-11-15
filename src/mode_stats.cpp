@@ -1,20 +1,14 @@
 #include <SFML/Graphics.hpp>
+#include "mode_utils.hpp"
 #include <string>
 
-// this is going to use sfml and have graphs  have to implement
 void run_stats_page()
 {
-  sf::RenderWindow window(sf::VideoMode(1280, 720), "raftaar - stats");
+  sf::RenderWindow window(sf::VideoMode(1000, 800), "RAFTAAR - STATS DASHBOARD");
+  window.setFramerateLimit(60);
 
   sf::Font font;
-  if (!font.loadFromFile("assets/arial.ttf"))
-  {
-    printf("error: font file not found\n");
-    return;
-  }
-
-  sf::Text text("Stats coming soon...", font, 32);
-  text.setPosition(100, 100);
+  font.loadFromFile("assets/arial.ttf");
 
   while (window.isOpen())
   {
@@ -25,8 +19,7 @@ void run_stats_page()
         window.close();
     }
 
-    window.clear();
-    window.draw(text);
+    window.clear(sf::Color(30, 30, 30));
     window.display();
   }
 }
