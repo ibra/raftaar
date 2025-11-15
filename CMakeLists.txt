@@ -20,6 +20,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(sfml)
 
 file(GLOB CORE_SOURCES "src/core/*.cpp")
+file(GLOB DATA_SOURCES "src/data/*.cpp")
 file(GLOB MODE_SOURCES "src/modes/*.cpp")
 file(GLOB UI_SOURCES "src/ui/*.cpp")
 file(GLOB UTIL_SOURCES "src/utils/*.cpp")
@@ -27,6 +28,7 @@ file(GLOB UTIL_SOURCES "src/utils/*.cpp")
 set(SOURCES
     src/main.cpp
     ${CORE_SOURCES}
+    ${DATA_SOURCES}
     ${MODE_SOURCES}
     ${UI_SOURCES}
     ${UTIL_SOURCES}
