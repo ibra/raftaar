@@ -18,12 +18,16 @@ int main()
 
     bool open_stats_page = false;
 
+    // creating buttons for the different modes and then laying them out horizontally
+
     auto words_mode_button = Button("WORDS MODE", [&]
                                     { run_words_mode(); });
     auto timed_mode_button = Button("EQUATION MODE", [&]
                                     { run_equations_mode(); });
     auto equation_mode_button = Button("TIMED MODE", [&]
                                        { run_timed_mode(); });
+
+    // these buttons are going to be laid out vertically (relative to the mode buttons)
 
     auto stats_button = Button("OPEN DASHBOARD", [&]
                                {         
@@ -51,6 +55,9 @@ int main()
                                     menu_container->Render(),
                                 }) |
                                 center | border; });
+
+    // keep running the loop for the TUI. but if the stats page is opened the loop ends and it runs the stats page
+    // and uses SFML for that.
 
     screen.Loop(ui);
 
