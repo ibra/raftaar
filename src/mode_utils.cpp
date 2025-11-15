@@ -31,3 +31,20 @@ std::vector<std::string> get_random_words(int count)
 
   return result;
 }
+
+bool handle_space_key(
+    TypingState &state,
+    int max_items,
+    ScreenInteractive &screen)
+{
+  if (state.current_index >= max_items)
+  {
+    return false;
+  }
+
+  bool is_correct = (state.input == state.items[state.current_index]);
+  update_typing_state(state, is_correct);
+  screen.Post(Event::Custom);
+
+  return true;
+}
