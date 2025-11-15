@@ -37,7 +37,7 @@ void run_equations_mode()
       LayoutElements layout;
       layout.content = content;
       layout.stats = render_stats_box(stats);
-      layout.header = render_header("EQUATIONS MODE");
+      layout.header = render_header("EQUATION MODE");
       layout.more = text("");
       layout.input = input_component;
       layout.back_button = back_button;
