@@ -35,20 +35,20 @@ std::vector<std::string> generate_equations(int count)
                 "dy/dx = " + std::to_string(a) + "x^" + std::to_string(n);
             break;
         case 4:
-            eq = "lim_{x\\to0}\\frac{\\sin(x)}{x}";
+            eq = "int(" + std::to_string(a) + "x^" + std::to_string(n) + ") dx";
             break;
         case 5:
             eq = std::to_string(a) + "x+" + std::to_string(b) +
                  "y=" + std::to_string(c);
             break;
         case 6:
-            eq = "sqrt{" + std::to_string(a * a) + "}+" + std::to_string(b);
+            eq = "sqrt(" + std::to_string(a * a) + ")+" + std::to_string(b);
             break;
         case 7:
-            eq = "e^{" + std::to_string(a) + "x}=" + std::to_string(c);
+            eq = "e^(" + std::to_string(a) + "x)=" + std::to_string(c);
             break;
         case 8:
-            eq = "log_{" + std::to_string(a) + "}(" + std::to_string(c) + ")";
+            eq = "log_" + std::to_string(a) + "(" + std::to_string(c) + ")";
             break;
         case 9:
             eq = std::to_string(a) + "sin(x)+" + std::to_string(b) + "cos(x)";

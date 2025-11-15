@@ -26,6 +26,7 @@ file(GLOB SOURCES
     "src/mode_*.cpp"
     "src/typing_state.cpp"
     "src/ui_components.cpp"
+    "src/equation_generation.cpp"
 )
 
 add_executable(raftaar ${SOURCES})
