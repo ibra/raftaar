@@ -2,6 +2,7 @@
   "files.associations": {
     "vector": "cpp",
     "type_traits": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "ctime": "cpp"
   }
 }
