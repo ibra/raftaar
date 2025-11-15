@@ -55,3 +55,27 @@ Element render_words_box(
 
     return hflow(std::move(elements)) | border;
 }
+
+Element create_default_layout(const LayoutElements &elements, int width)
+{
+    std::vector<Element> layout;
+
+    layout.push_back(elements.header);
+    layout.push_back(separator());
+
+    if (elements.more.get() != nullptr)
+    {
+        layout.push_back(elements.more);
+        layout.push_back(separator());
+    }
+
+    layout.push_back(elements.content);
+    layout.push_back(separator());
+    layout.push_back(elements.stats);
+    layout.push_back(separator());
+    layout.push_back(elements.input->Render());
+    layout.push_back(separator());
+    layout.push_back(elements.back_button->Render());
+
+    return vbox(layout) | border | size(WIDTH, EQUAL, width) | center | vcenter;
+}
