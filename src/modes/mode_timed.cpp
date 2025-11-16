@@ -128,7 +128,7 @@ void run_timed_mode()
     auto timer_box = hbox({
                          text("TIME: ") | bold,
                          text(std::to_string(remaining_time) + "s") |
-                             color(remaining_time <= 10 ? Color::RedLight
+                             color(remaining_time <= 5 ? Color::RedLight
                                                         : Color::GreenLight),
                      }) |
                      center;
