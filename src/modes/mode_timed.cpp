@@ -80,6 +80,7 @@ void run_timed_mode()
   int current_index = 0;
   int visible_start = 0;
   int correct_words = 0;
+  int correct_chars = 0;
 
   int total_typed = 0;
   bool started = false;
@@ -205,11 +206,15 @@ void run_timed_mode()
       bool is_correct = (input == wordlist[current_index]);
       word_correctness[current_index] = is_correct;
       if (is_correct)
+      {
+
         correct_words++;
+        correct_chars += wordlist[current_index].length() + 1;
+      }
       current_index++;
       input.clear();
       end_time = std::chrono::steady_clock::now();
-      wpm = calculate_wpm(correct_words, start_time, end_time);
+      wpm = calculate_wpm(correct_chars, start_time, end_time);
       accuracy = (double)correct_words / total_typed * 100.0;
       screen.Post(Event::Custom);
       return true;

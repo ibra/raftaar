@@ -24,7 +24,7 @@ void update_typing_state(TypingState &state, bool is_correct)
     state.input.clear();
     state.end_time = std::chrono::steady_clock::now();
 
-    state.wpm = calculate_wpm(state.correct_words, state.start_time, state.end_time);
+    state.wpm = calculate_wpm(state.correct_chars, state.start_time, state.end_time);
     state.accuracy = (double)state.correct_words / state.total_word_typed * 100.0;
 }
 
