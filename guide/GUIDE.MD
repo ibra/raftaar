@@ -48,7 +48,7 @@ After each test, results are written to a CSV file. The stats dashboard loads th
 
 ### **Graphics-Driven Dashboard**
 
-The stats page uses SFML to render a separate graphical window with a card-based layout system, full control over typography, and a themed color palette. It presents typing performance in a clean, visually readable format that complements the terminal UI.
+The stats page uses SFML to render a separate graphical window with a card-based layout system, and a themed color palette that we chose. It presents typing performance in a clean, visually readable format that complements the terminal UI.
 
 ## BUILDING THE PROJECT
 
