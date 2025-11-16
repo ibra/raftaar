@@ -1,6 +1,8 @@
 #include "core/typing_state.hpp"
 #include "utils/mode_utils.hpp"
 
+// updates the typing state after each input
+
 void update_typing_state(TypingState &state, bool is_correct)
 {
     if (!state.started)
@@ -24,6 +26,8 @@ void update_typing_state(TypingState &state, bool is_correct)
     state.wpm = calculate_wpm(state.correct_count, state.start_time, state.end_time);
     state.accuracy = (double)state.correct_count / state.total_typed * 100.0;
 }
+
+// when any mode begins we initialize the typing state by setting all of its values to default
 
 void start_typing_state(TypingState &state, std::vector<std::string> items)
 {

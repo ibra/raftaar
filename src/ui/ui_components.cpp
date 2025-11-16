@@ -1,5 +1,7 @@
 #include "ui/ui_components.hpp"
 
+// this file just has functions that render various elements (for the FTXUI lib) that are repeatedly used
+
 Element render_stats_box(const Stats &stats)
 {
     return vbox({
