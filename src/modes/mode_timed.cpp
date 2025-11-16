@@ -11,9 +11,9 @@
 using namespace ftxui;
 
 std::vector<Element>
-create_falling_words(const std::vector<std::string> &wordlist,
-                     const std::vector<bool> &word_correctness,
-                     int current_index, int visible_start)
+create_word_grid(const std::vector<std::string> &wordlist,
+                 const std::vector<bool> &word_correctness,
+                 int current_index, int visible_start)
 {
   std::vector<Element> lines;
   int words_per_line = 8;
@@ -123,7 +123,7 @@ void run_timed_mode()
       visible_start = current_index - 10;
     }
 
-    auto falling_lines = create_falling_words(wordlist, word_correctness,
+    auto falling_lines = create_word_grid(wordlist, word_correctness,
                                               current_index, visible_start);
     auto words_display =
         vbox(std::move(falling_lines)) | border | size(HEIGHT, EQUAL, 7);
