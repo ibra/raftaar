@@ -13,7 +13,14 @@ double calculate_wpm(int correct_words,
 {
   using namespace std::chrono;
   double elapsed_seconds = duration_cast<duration<double>>(end - start).count();
-  return elapsed_seconds == 0 ? 0.0 : (correct_words * 60.0) / elapsed_seconds;
+
+  // when the elapsed time is less than a second, or less than 2 correct words, return 0 to avoid inflated wpm
+  if (elapsed_seconds < 1.0)
+  {
+    return 0.0;
+  }
+
+  return (correct_words / elapsed_seconds) * 60.0;
 }
 
 // the word file here was in the public domain and was sourced from
@@ -47,7 +54,7 @@ bool handle_space_key(
     int max_items,
     ScreenInteractive &screen)
 {
-  if (state.current_index >= max_items)
+  if (state.current_index >= max_items - 1)
   {
     state.end_time = std::chrono::steady_clock::now();
     state.wpm = calculate_wpm(state.correct_count, state.start_time, state.end_time);
