@@ -50,17 +50,6 @@ After each test, results are written to a CSV file. The stats dashboard loads th
 
 The stats page uses SFML to render a separate graphical window with a card-based layout system, full control over typography, and a themed color palette. It presents typing performance in a clean, visually readable format that complements the terminal UI.
 
-## PROJECT STRUCTURE
-
-- `main.cpp` — menu and routing
-- `mode_words.cpp` — for the words mode
-- `mode_equations.cpp` — equation generation + evaluation
-- `mode_timed.cpp` — scrolling timed mode
-- `mode_utils.cpp` — timing, random word loading, WPM calculations
-- `mode_stats.cpp` — SFML stats view
-
-Everything can be found in the `src/` directory, with assets in `assets/`.
-
 ## BUILDING THE PROJECT
 
 We used CMake as a build system for the project. This not only makes building the project with the libraries extremely easy, but also means that the project is cross-platform. I wrote the code for it and tested it on
