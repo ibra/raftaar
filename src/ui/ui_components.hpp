@@ -17,7 +17,9 @@ struct Stats
 
 Element render_stats_box(const Stats &stats);
 Element render_header(const std::string &title);
+
 Element render_timer(int secondsLeft, int warningLimit = 10);
+Element render_timer_box(int remaining_time);
 
 Element render_words_box(
     const std::vector<std::string> &items,

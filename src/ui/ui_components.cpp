@@ -96,3 +96,13 @@ Element create_finished_layout(const Stats &stats, Component back_button)
            }) |
            border | size(WIDTH, EQUAL, 120) | center | vcenter;
 }
+
+Element render_timer_box(int remaining_time)
+{
+    return hbox({
+               text("TIME: ") | bold,
+               text(std::to_string(remaining_time) + "s") |
+                   color(remaining_time <= 5 ? Color::RedLight : Color::GreenLight),
+           }) |
+           center;
+}

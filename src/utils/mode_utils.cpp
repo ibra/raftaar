@@ -57,6 +57,12 @@ bool handle_space_key(
     int max_items,
     ScreenInteractive &screen)
 {
+  if (!state.started)
+  {
+    state.started = true;
+    state.start_time = std::chrono::steady_clock::now();
+  }
+
   bool is_correct = (state.input == state.items[state.current_index]);
   bool is_finished = (state.current_index >= max_items - 1);
 
@@ -79,4 +85,16 @@ bool handle_space_key(
 
   screen.Post(Event::Custom);
   return true;
+}
+
+// gets the remaining time in seconds for timed mode
+
+int get_remaining_time(std::chrono::steady_clock::time_point start_time,
+                       int duration_seconds)
+{
+  auto current_time = std::chrono::steady_clock::now();
+  auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(current_time -
+                                                                  start_time)
+                     .count();
+  return duration_seconds - elapsed;
 }

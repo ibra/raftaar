@@ -20,3 +20,6 @@ bool handle_space_key(
     TypingState &state,
     int items,
     ScreenInteractive &screen);
+
+int get_remaining_time(std::chrono::steady_clock::time_point start_time,
+                       int duration_seconds);
