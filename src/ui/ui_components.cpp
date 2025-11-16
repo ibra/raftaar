@@ -81,3 +81,18 @@ Element create_default_layout(const LayoutElements &elements, int width)
 
     return vbox(layout) | border | size(WIDTH, EQUAL, width) | center | vcenter;
 }
+
+Element create_finished_layout(const Stats &stats, Component back_button)
+{
+    return vbox({
+               text("TEST COMPLETED!") | bold | center,
+               separator(),
+               text("Final WPM: " + std::to_string((int)stats.wpm)) | bold | center,
+               text("Final Accuracy: " + std::to_string((int)stats.accuracy) + "%") | bold | center,
+               text("Correct Words: " + std::to_string(stats.correct_words)) | bold | center,
+               text("Total Typed: " + std::to_string(stats.total_words)) | bold | center,
+               separator(),
+               back_button->Render(),
+           }) |
+           border | size(WIDTH, EQUAL, 120) | center | vcenter;
+}

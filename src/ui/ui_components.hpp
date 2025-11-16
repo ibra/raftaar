@@ -11,8 +11,8 @@ struct Stats
 {
     double wpm;
     double accuracy;
-    int correct_count;
-    int total_count;
+    int correct_words;
+    int total_words;
 };
 
 Element render_stats_box(const Stats &stats);
