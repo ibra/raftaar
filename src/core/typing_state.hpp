@@ -29,7 +29,6 @@ struct TypingState
     int duration_seconds = 0;
     int remaining_time = 0;
     int visible_start = 0;
-    std::chrono::steady_clock::time_point start_time;
 };
 
 void update_typing_state(TypingState &state, bool is_correct);
