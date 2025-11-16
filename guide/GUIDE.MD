@@ -52,8 +52,7 @@ The stats page uses SFML to render a separate graphical window with a card-based
 
 ## BUILDING THE PROJECT
 
-We used CMake as a build system for the project. This not only makes building the project with the libraries extremely easy, but also means that the project is cross-platform. I wrote the code for it and tested it on
-both Windows and Linux (Debian).
+We used CMake as a build system for the project. This not only makes building the project with the libraries extremely easy, but also means that the project is cross-platform. We wrote the code for it and tested it comprehensively on both Windows and Linux (Debian).
 
 Create a build folder:
 
@@ -73,3 +72,7 @@ Compile:
 ```bash
 cmake --build . --config Release
 ```
+
+Then run the application via `build/Release/raftaar.exe`.
+
+If it complains about missing SFML DLL files when running, copy them from `_deps/sfml-build/lib` to the same directory as the executable `raftaar.exe`.
