@@ -109,5 +109,5 @@ dot.edge("game_timed", "util_words", style="dotted", color=color_header)
 
 dot.edge("stats", "save", style="dotted", dir="back")
 
-dot.render("raftaar_flowchart", format="pdf", cleanup=True)
+dot.render("flowchart", format="pdf", cleanup=True)
 print("done w flowchart")

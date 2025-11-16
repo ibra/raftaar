@@ -42,5 +42,7 @@
 
 # build directory 
 build/
-flowchart/raftaar_flowchart.pdf
+
+# generated pdf files for the project submission
 guide/guide.pdf
+guide/flowchart.pdf
