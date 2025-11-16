@@ -14,6 +14,7 @@ void run_timed_mode()
 
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
   TypingState state;
+
   state.is_timed = true;
   state.duration_seconds = DURATION_SECONDS;
 
@@ -36,8 +37,8 @@ void run_timed_mode()
       }
     }
     
-    if (state.current_index >= state.visible_start + 16) {
-      state.visible_start = state.current_index - 8;
+    if (state.current_index >= state.visible_start + 8) {
+      state.visible_start = state.current_index - 4;
     }
     
     if (state.current_index >= state.items.size() - 16) {
