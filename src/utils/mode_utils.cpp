@@ -7,7 +7,7 @@
 
 // calculates the words per minute (wpm) based on the number of correct words typed and the elapsed time
 
-double calculate_wpm(int correct_words,
+double calculate_wpm(int correct_chars,
                      std::chrono::steady_clock::time_point start,
                      std::chrono::steady_clock::time_point end)
 {
@@ -20,7 +20,10 @@ double calculate_wpm(int correct_words,
     return 0.0;
   }
 
-  return (correct_words / elapsed_seconds) * 60.0;
+  double minutes = elapsed_seconds / 60.0;
+  double wpm = (correct_chars / 5.0) / minutes;
+
+  return wpm;
 }
 
 // the word file here was in the public domain and was sourced from
@@ -57,7 +60,7 @@ bool handle_space_key(
   if (state.current_index >= max_items - 1)
   {
     state.end_time = std::chrono::steady_clock::now();
-    state.wpm = calculate_wpm(state.correct_words, state.start_time, state.end_time);
+    state.wpm = calculate_wpm(state.correct_chars, state.start_time, state.end_time);
     state.accuracy = (state.total_word_typed == 0) ? 0.0 : (state.correct_words * 100.0) / state.total_word_typed;
 
     std::vector<std::vector<std::string>> data = {{std::to_string(state.wpm),

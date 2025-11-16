@@ -17,6 +17,7 @@ void update_typing_state(TypingState &state, bool is_correct)
     if (is_correct)
     {
         state.correct_words++;
+        state.correct_chars += state.items[state.current_index].length() + 1; // the +1 here is added to also account for the space
     }
 
     state.current_index++;
