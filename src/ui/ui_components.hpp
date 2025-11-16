@@ -32,11 +32,17 @@ struct LayoutElements
     Element content;
     Element stats;
     Element header;
-    Element more; // todo: use this for the timer later
+    Element more;
     Component input;
     Component back_button;
 };
 
 Element create_default_layout(const LayoutElements &elements, int width = 120);
 
-Element create_finished_layout(const Stats &stats, Component back_button); // ADD THIS
+Element create_finished_layout(const Stats &stats, Component back_button);
+
+Element render_timed_words_box(
+    const std::vector<std::string> &items,
+    const std::vector<bool> &correctness,
+    int current_index,
+    int visible_start);

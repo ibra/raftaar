@@ -10,11 +10,10 @@ using namespace ftxui;
 void run_timed_mode()
 {
   const int DURATION_SECONDS = 15;
-  const int WORDS_BATCH_SIZE = 10;
+  const int WORDS_BATCH_SIZE = 50;
 
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
   TypingState state;
-
   state.is_timed = true;
   state.duration_seconds = DURATION_SECONDS;
 
@@ -37,16 +36,26 @@ void run_timed_mode()
       }
     }
     
+    if (state.current_index >= state.visible_start + 16) {
+      state.visible_start = state.current_index - 8;
+    }
+    
+    if (state.current_index >= state.items.size() - 16) {
+      auto new_words = get_random_words(WORDS_BATCH_SIZE);
+      state.items.insert(state.items.end(), new_words.begin(), new_words.end());
+      state.correctness.resize(state.items.size(), false);
+    }
+    
     if (state.finished) {
       Stats stats = {state.wpm, state.accuracy, state.correct_words, state.total_words};
       return create_finished_layout(stats, back_button);
     }
     
-    auto content = render_words_box(
+    auto content = render_timed_words_box(
         state.items,
         state.correctness,
         state.current_index,
-        WORDS_BATCH_SIZE
+        state.visible_start
     );
     
     Stats stats = {state.wpm, state.accuracy, state.correct_words, state.total_words};
@@ -68,7 +77,15 @@ void run_timed_mode()
     }
     
     if (event == Event::Character(' ')) {
-      return handle_space_key(state, WORDS_BATCH_SIZE, screen);
+      if (!state.started) {
+        state.started = true;
+        state.start_time = std::chrono::steady_clock::now();
+      }
+      
+      bool is_correct = (state.input == state.items[state.current_index]);
+      update_typing_state(state, is_correct);
+      screen.Post(Event::Custom);
+      return true;
     }
     return false; });
 

@@ -106,3 +106,59 @@ Element render_timer_box(int remaining_time)
            }) |
            center;
 }
+
+Element render_timed_words_box(
+    const std::vector<std::string> &items,
+    const std::vector<bool> &correctness,
+    int current_index,
+    int visible_start)
+{
+    std::vector<Element> lines;
+    const int WORDS_PER_LINE = 8;
+    const int NUM_LINES = 5;
+    const int TOTAL_VISIBLE = WORDS_PER_LINE * NUM_LINES;
+
+    for (int line = 0; line < NUM_LINES; line++)
+    {
+        std::vector<Element> line_elements;
+        for (int w = 0; w < WORDS_PER_LINE; w++)
+        {
+            int idx = visible_start + line * WORDS_PER_LINE + w;
+
+            if (idx >= items.size())
+            {
+                line_elements.push_back(text(""));
+            }
+            else
+            {
+                const auto &word = items[idx];
+                Element e = text(word);
+
+                if (idx < current_index)
+                {
+                    e |= correctness[idx] ? color(Color::GreenLight)
+                                          : color(Color::RedLight);
+                }
+                else if (idx == current_index)
+                {
+                    e |= bold | color(Color::YellowLight);
+                }
+                else
+                {
+                    e |= dim;
+                }
+
+                line_elements.push_back(e);
+            }
+
+            if (w < WORDS_PER_LINE - 1)
+            {
+                line_elements.push_back(text(" "));
+            }
+        }
+
+        lines.push_back(hbox(std::move(line_elements)));
+    }
+
+    return vbox(std::move(lines)) | border | size(HEIGHT, EQUAL, 7);
+}
