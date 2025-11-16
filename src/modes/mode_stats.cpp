@@ -53,13 +53,11 @@ void run_stats_page()
   if (!font.loadFromFile("assets/montserrat.ttf"))
     return;
 
-  // load the test data from the csv file
   auto data = load_test_data("test_results.csv");
 
   double avg_wpm = 0.0, max_wpm = 0.0, avg_acc = 0.0;
   int totalTests = data.size();
 
-  // its possible that the user hasn't done any tests yet
   if (!data.empty())
   {
     std::vector<double> wpms, accuracies;
@@ -80,7 +78,6 @@ void run_stats_page()
     }
   }
 
-  // scrolling state
   int scroll_offset = 0;
   const int row_height = 70;
   const int max_visible_tests = 3;
@@ -93,11 +90,9 @@ void run_stats_page()
       if (event.type == sf::Event::Closed)
         window.close();
 
-      // let closing the stats page also be possible with escape key
       if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
         window.close();
 
-      // scrolling
       if (event.type == sf::Event::KeyPressed)
       {
         int max_scroll = std::max(0, (int)data.size() - max_visible_tests);
@@ -114,7 +109,6 @@ void run_stats_page()
 
     window.clear(bg_color);
 
-    // title section
     auto title = create_text("RAFTAAR: STATS DASHBOARD", font, 42, main_text, margin, 40);
     title.setStyle(sf::Text::Bold);
     window.draw(title);
@@ -122,13 +116,11 @@ void run_stats_page()
     auto subtitle = create_text("An overview of your most recent typing performances.", font, 18, gray_text, margin, 95);
     window.draw(subtitle);
 
-    // main stats card section
     float cardY = 150;
     float cardHeight = 120;
     float cardWidth = (contentWidth - 40) / 3.0f;
     float spacing = 20;
 
-    // average wpm gui
     auto card1 = create_card(margin, cardY, cardWidth, cardHeight, card_color);
     window.draw(card1);
 
@@ -138,7 +130,6 @@ void run_stats_page()
     window.draw(card1Label);
     window.draw(card1Value);
 
-    // best wpm gui
     auto card2 = create_card(margin + cardWidth + spacing, cardY, cardWidth, cardHeight, card_color);
     window.draw(card2);
 
@@ -148,7 +139,6 @@ void run_stats_page()
     window.draw(card2Label);
     window.draw(card2Value);
 
-    // accuracy gui
     auto card3 = create_card(margin + (cardWidth + spacing) * 2, cardY, cardWidth, cardHeight, card_color);
     window.draw(card3);
 
@@ -158,7 +148,6 @@ void run_stats_page()
     window.draw(card3Label);
     window.draw(card3Value);
 
-    // show all the tests completed
     float testsY = cardY + cardHeight + 50;
     auto testsCard = create_card(margin, testsY, contentWidth, 100, card_color);
     window.draw(testsCard);
