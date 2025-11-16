@@ -57,11 +57,17 @@ bool handle_space_key(
     int max_items,
     ScreenInteractive &screen)
 {
-  if (state.current_index >= max_items - 1)
+  bool is_correct = (state.input == state.items[state.current_index]);
+  bool is_finished = (state.current_index >= max_items - 1);
+
+  update_typing_state(state, is_correct);
+
+  if (is_finished)
   {
     state.end_time = std::chrono::steady_clock::now();
     state.wpm = calculate_wpm(state.correct_chars, state.start_time, state.end_time);
     state.accuracy = (state.total_words == 0) ? 0.0 : (state.correct_words * 100.0) / state.total_words;
+    state.finished = true;
 
     std::vector<std::vector<std::string>> data = {{std::to_string(state.wpm),
                                                    std::to_string(state.accuracy),
@@ -71,9 +77,6 @@ bool handle_space_key(
     save_test_data("test_results.csv", data);
   }
 
-  bool is_correct = (state.input == state.items[state.current_index]);
-  update_typing_state(state, is_correct);
   screen.Post(Event::Custom);
-
   return true;
 }
