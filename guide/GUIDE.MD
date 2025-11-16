@@ -10,7 +10,7 @@ The main mode. It's a fixed-length accuracy test. Random words are loaded from a
 
 ### **Timed Mode**
 
-A paced challenge where the interface streams new words as you advance. There's an infinite amount of words and the display scrolls smoothly, and the stats update every time you submit a word. This mode highlights the real-time rendering and state-management part of the project.
+A paced challenge where the interface streams new words as you advance. There's an infinite amount of words and the display scrolls infinitely, and the stats update every time you submit a word. This mode highlights the real-time rendering and state-management part of the project.
 
 ### **Equation Mode**
 
