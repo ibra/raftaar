@@ -1,6 +1,7 @@
 #include "ui/ui_components.hpp"
 
-// this file just has functions that render various elements (for the FTXUI lib) that are repeatedly used
+// this file has custom components we made that render various elements (for the FTXUI lib) which are repeatedly used
+// across the different gamemodes.
 
 Element render_stats_box(const Stats &stats)
 {
