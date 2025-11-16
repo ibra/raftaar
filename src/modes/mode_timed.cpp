@@ -83,7 +83,9 @@ void run_timed_mode()
 
   int total_typed = 0;
   bool started = false;
+
   bool finished = false;
+  bool wants_to_finish = false;
 
   auto start_time = std::chrono::steady_clock::now();
   auto end_time = start_time;
@@ -103,7 +105,7 @@ void run_timed_mode()
 
   auto input_component = Input(&input, "TYPE HERE...");
   auto back_button = Button("GO BACK", [&]
-                            { screen.ExitLoopClosure()(); });
+                            { screen.ExitLoopClosure()(); wants_to_finish = true; });
   auto container = Container::Vertical({input_component, back_button});
 
   auto renderer = Renderer(container, [&]
@@ -214,14 +216,14 @@ void run_timed_mode()
     } 
     return false; });
 
-  std::thread timer_thread([&screen, &started, &finished]()
+  std::thread timer_thread([&screen, &started, &finished, &wants_to_finish]()
                            {
     while (true) {
       std::this_thread::sleep_for(std::chrono::milliseconds(100));
-      if (started && !finished) {
+      if (started && !finished && !wants_to_finish) {
         screen.Post(Event::Custom);
       }
-      if (finished) {
+      if (finished || wants_to_finish) {
         break;
       }
     } });
