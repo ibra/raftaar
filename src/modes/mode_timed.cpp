@@ -10,10 +10,11 @@ using namespace ftxui;
 void run_timed_mode()
 {
   const int DURATION_SECONDS = 15;
-  const int WORDS_BATCH_SIZE = 50;
+  const int WORDS_BATCH_SIZE = 10;
 
   ScreenInteractive screen = ScreenInteractive::Fullscreen();
   TypingState state;
+
   state.is_timed = true;
   state.duration_seconds = DURATION_SECONDS;
 
@@ -45,7 +46,7 @@ void run_timed_mode()
         state.items,
         state.correctness,
         state.current_index,
-        state.visible_start
+        WORDS_BATCH_SIZE
     );
     
     Stats stats = {state.wpm, state.accuracy, state.correct_words, state.total_words};

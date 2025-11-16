@@ -47,4 +47,7 @@ void start_typing_state(TypingState &state, std::vector<std::string> items)
 
     state.wpm = 0.0;
     state.accuracy = 100.0;
+
+    state.start_time = std::chrono::steady_clock::now();
+    state.remaining_time = state.duration_seconds;
 }
