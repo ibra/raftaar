@@ -36,3 +36,5 @@ struct LayoutElements
 };
 
 Element create_default_layout(const LayoutElements &elements, int width = 120);
+
+Element create_finished_layout(const Stats &stats, Component back_button); // ADD THIS

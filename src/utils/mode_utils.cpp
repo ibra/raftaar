@@ -61,12 +61,12 @@ bool handle_space_key(
   {
     state.end_time = std::chrono::steady_clock::now();
     state.wpm = calculate_wpm(state.correct_chars, state.start_time, state.end_time);
-    state.accuracy = (state.total_word_typed == 0) ? 0.0 : (state.correct_words * 100.0) / state.total_word_typed;
+    state.accuracy = (state.total_words == 0) ? 0.0 : (state.correct_words * 100.0) / state.total_words;
 
     std::vector<std::vector<std::string>> data = {{std::to_string(state.wpm),
                                                    std::to_string(state.accuracy),
                                                    std::to_string(state.correct_words),
-                                                   std::to_string(state.total_word_typed)}};
+                                                   std::to_string(state.total_words)}};
 
     save_test_data("test_results.csv", data);
   }

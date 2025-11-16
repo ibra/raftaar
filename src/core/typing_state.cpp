@@ -11,7 +11,7 @@ void update_typing_state(TypingState &state, bool is_correct)
         state.start_time = std::chrono::steady_clock::now();
     }
 
-    state.total_word_typed++;
+    state.total_words++;
     state.correctness[state.current_index] = is_correct;
 
     if (is_correct)
@@ -25,7 +25,7 @@ void update_typing_state(TypingState &state, bool is_correct)
     state.end_time = std::chrono::steady_clock::now();
 
     state.wpm = calculate_wpm(state.correct_chars, state.start_time, state.end_time);
-    state.accuracy = (double)state.correct_words / state.total_word_typed * 100.0;
+    state.accuracy = (double)state.correct_words / state.total_words * 100.0;
 }
 
 // when any mode begins we initialize the typing state by setting all of its values to default
@@ -35,14 +35,16 @@ void start_typing_state(TypingState &state, std::vector<std::string> items)
     state.items = items;
     state.correctness.resize(state.items.size(), false);
 
+    state.started = false;
+    state.finished = false;
+
     state.current_index = 0;
 
-    state.total_word_typed = 0;
+    state.total_words = 0;
     state.correct_words = 0;
 
     state.correct_chars = 0;
 
-    state.started = false;
     state.wpm = 0.0;
     state.accuracy = 100.0;
 }
