@@ -39,11 +39,10 @@ std::string format_stat(double value, int precision = 2)
 
 void run_stats_page()
 {
-  sf::RenderWindow window(sf::VideoMode(1280, 720), "RAFTAAR: STATS DASHBOARD");
+  sf::RenderWindow window(sf::VideoMode(1280, 720), "RAFTAAR: STATS DASHBOARD", sf::Style::Default);
   window.setFramerateLimit(60);
 
   // colors used in the stats page
-
   sf::Color bg_color(20, 20, 25);
   sf::Color card_color(35, 35, 45);
   sf::Color blue_accent(88, 166, 255);
@@ -55,14 +54,12 @@ void run_stats_page()
     return;
 
   // load the test data from the csv file
-
   auto data = load_test_data("test_results.csv");
 
   double avg_wpm = 0.0, max_wpm = 0.0, avg_acc = 0.0;
   int totalTests = data.size();
 
   // its possible that the user hasn't done any tests yet
-
   if (!data.empty())
   {
     std::vector<double> wpms, accuracies;
@@ -83,6 +80,11 @@ void run_stats_page()
     }
   }
 
+  // scrolling state
+  int scroll_offset = 0;
+  const int row_height = 70;
+  const int max_visible_tests = 10;
+
   while (window.isOpen())
   {
     sf::Event event;
@@ -94,115 +96,116 @@ void run_stats_page()
       // let closing the stats page also be possible with escape key
       if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
         window.close();
+
+      // scrolling
+      if (event.type == sf::Event::KeyPressed)
+      {
+        int max_scroll = std::max(0, (int)data.size() - max_visible_tests);
+        if (event.key.code == sf::Keyboard::Up)
+          scroll_offset = std::max(0, scroll_offset - 1);
+        if (event.key.code == sf::Keyboard::Down)
+          scroll_offset = std::min(scroll_offset + 1, max_scroll);
+      }
     }
+
+    sf::Vector2u windowSize = window.getSize();
+    float contentWidth = std::min(1200.0f, windowSize.x - 100.0f);
+    float margin = (windowSize.x - contentWidth) / 2.0f;
 
     window.clear(bg_color);
 
-    auto title = create_text("RAFTAAR: STATS DASHBOARD", font, 42, main_text, 50, 40);
+    // title section
+    auto title = create_text("RAFTAAR: STATS DASHBOARD", font, 42, main_text, margin, 40);
     title.setStyle(sf::Text::Bold);
     window.draw(title);
 
-    // todo: in the future i want to write a custom scrollable component so i can support scrolling for
-    // all data, but for now we show the most recent 5 tests.
-
-    auto subtitle = create_text("An overview of your most recent typing performances.", font, 18, gray_text, 50, 95);
+    auto subtitle = create_text("An overview of your most recent typing performances.", font, 18, gray_text, margin, 95);
     window.draw(subtitle);
 
     // main stats card section
-
     float cardY = 150;
     float cardHeight = 120;
-    float cardWidth = 280;
+    float cardWidth = (contentWidth - 40) / 3.0f;
     float spacing = 20;
 
     // average wpm gui
-    auto card1 = create_card(50, cardY, cardWidth, cardHeight, card_color);
+    auto card1 = create_card(margin, cardY, cardWidth, cardHeight, card_color);
     window.draw(card1);
 
-    auto card1Label = create_text("AVERAGE WPM", font, 16, gray_text, 70, cardY + 30);
-    auto card1Value = create_text(format_stat(avg_wpm, 1), font, 48, blue_accent, 70, cardY + 60);
+    auto card1Label = create_text("AVERAGE WPM", font, 16, gray_text, margin + 20, cardY + 30);
+    auto card1Value = create_text(format_stat(avg_wpm, 1), font, 48, blue_accent, margin + 20, cardY + 60);
     card1Value.setStyle(sf::Text::Bold);
     window.draw(card1Label);
     window.draw(card1Value);
 
     // best wpm gui
-
-    auto card2 = create_card(50 + cardWidth + spacing, cardY, cardWidth, cardHeight, card_color);
+    auto card2 = create_card(margin + cardWidth + spacing, cardY, cardWidth, cardHeight, card_color);
     window.draw(card2);
 
-    auto card2Label = create_text("BEST WPM", font, 16, gray_text, 70 + cardWidth + spacing, cardY + 30);
-    auto card2Value = create_text(format_stat(max_wpm, 1), font, 48, blue_accent, 70 + cardWidth + spacing, cardY + 60);
+    auto card2Label = create_text("BEST WPM", font, 16, gray_text, margin + cardWidth + spacing + 20, cardY + 30);
+    auto card2Value = create_text(format_stat(max_wpm, 1), font, 48, blue_accent, margin + cardWidth + spacing + 20, cardY + 60);
     card2Value.setStyle(sf::Text::Bold);
     window.draw(card2Label);
     window.draw(card2Value);
 
     // accuracy gui
-    auto card3 = create_card(50 + (cardWidth + spacing) * 2, cardY, cardWidth, cardHeight, card_color);
+    auto card3 = create_card(margin + (cardWidth + spacing) * 2, cardY, cardWidth, cardHeight, card_color);
     window.draw(card3);
 
-    auto card3Label = create_text("AVG ACCURACY", font, 16, gray_text, 70 + (cardWidth + spacing) * 2, cardY + 30);
-    auto card3Value = create_text(format_stat(avg_acc, 1) + "%", font, 48, blue_accent, 70 + (cardWidth + spacing) * 2, cardY + 60);
+    auto card3Label = create_text("AVG ACCURACY", font, 16, gray_text, margin + (cardWidth + spacing) * 2 + 20, cardY + 30);
+    auto card3Value = create_text(format_stat(avg_acc, 1) + "%", font, 48, blue_accent, margin + (cardWidth + spacing) * 2 + 20, cardY + 60);
     card3Value.setStyle(sf::Text::Bold);
     window.draw(card3Label);
     window.draw(card3Value);
 
     // show all the tests completed
-
     float testsY = cardY + cardHeight + 50;
-    auto testsCard = create_card(50, testsY, 900, 100, card_color);
+    auto testsCard = create_card(margin, testsY, contentWidth, 100, card_color);
     window.draw(testsCard);
 
-    auto testsLabel = create_text("TESTS COMPLETED", font, 16, gray_text, 70, testsY + 25);
-    auto testsValue = create_text(std::to_string(totalTests), font, 40, main_text, 70, testsY + 45);
-
+    auto testsLabel = create_text("TESTS COMPLETED", font, 16, gray_text, margin + 20, testsY + 25);
+    auto testsValue = create_text(std::to_string(totalTests), font, 40, main_text, margin + 20, testsY + 45);
     testsValue.setStyle(sf::Text::Bold);
-
     window.draw(testsLabel);
     window.draw(testsValue);
 
-    // recent tests list
-
     float recentY = testsY + 130;
-    auto recentTitle = create_text("RECENT TESTS", font, 24, main_text, 50, recentY);
+    auto recentTitle = create_text("RECENT TESTS", font, 24, main_text, margin, recentY);
     recentTitle.setStyle(sf::Text::Bold);
     window.draw(recentTitle);
 
-    // since tests could also be less than five and that owuld cause an error when indexing
-
-    int displayCount = std::min(5, (int)data.size());
+    int displayCount = std::min(max_visible_tests, (int)data.size() - scroll_offset);
     float rowY = recentY + 50;
 
     for (int i = 0; i < displayCount; ++i)
     {
-      int idx = data.size() - 1 - i;
-      if (data[idx].size() >= 4)
+      int idx = data.size() - 1 - scroll_offset - i;
+      if (idx >= 0 && data[idx].size() >= 4)
       {
-        auto testCard = create_card(50, rowY, 900, 60, card_color);
+        auto testCard = create_card(margin, rowY, contentWidth, 60, card_color);
         window.draw(testCard);
 
-        std::string testNum = "#" + std::to_string(data.size() - i);
-        auto numText = create_text(testNum, font, 18, gray_text, 70, rowY + 20);
+        std::string testNum = "#" + std::to_string(data.size() - scroll_offset - i);
+        auto numText = create_text(testNum, font, 18, gray_text, margin + 20, rowY + 20);
         window.draw(numText);
 
         std::string wpmText = format_stat(std::stod(data[idx][0]), 1) + " WPM";
-        auto wpm = create_text(wpmText, font, 20, blue_accent, 250, rowY + 18);
+        auto wpm = create_text(wpmText, font, 20, blue_accent, margin + 150, rowY + 18);
         wpm.setStyle(sf::Text::Bold);
         window.draw(wpm);
 
-        std::string accText = format_stat(std::stod(data[idx][1]), 1) + "% ACCURACY";
-        auto acc = create_text(accText, font, 18, gray_text, 450, rowY + 20);
+        std::string accText = format_stat(std::stod(data[idx][1]), 1) + "% ACC";
+        auto acc = create_text(accText, font, 18, gray_text, margin + 350, rowY + 20);
         window.draw(acc);
 
         std::string wordsText = data[idx][2] + "/" + data[idx][3] + " WORDS";
-        auto words = create_text(wordsText, font, 18, gray_text, 700, rowY + 20);
+        auto words = create_text(wordsText, font, 18, gray_text, margin + 550, rowY + 20);
         window.draw(words);
 
-        rowY += 70;
+        rowY += row_height;
       }
     }
 
-    auto quit_text = create_text("USE THE ESC KEY TO QUIT", font, 14, gray_text, 50, 750);
-    window.draw(quit_text);
     window.display();
   }
 }
