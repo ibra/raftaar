@@ -83,7 +83,7 @@ void run_stats_page()
   // scrolling state
   int scroll_offset = 0;
   const int row_height = 70;
-  const int max_visible_tests = 10;
+  const int max_visible_tests = 3;
 
   while (window.isOpen())
   {
