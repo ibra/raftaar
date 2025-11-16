@@ -1,3 +1,6 @@
+# this script is only for generating the flowchart diagram of the program structure
+# running it will generate the actual pdf of the flowchart using graphviz
+
 from graphviz import Digraph
 
 font_main = "Arial"
@@ -37,7 +40,7 @@ dot.attr("node", shape="box", style="filled,rounded", fillcolor=color_mode,
          fontcolor="white", fontname=font_main)
 dot.node("words", "WORDS MODE\n(mode_words.cpp)\n25 fixed words")
 dot.node("equations", "EQUATIONS MODE\n(mode_equations.cpp)\n10 fixed equations")
-dot.node("timed", "TIMED MODE\n(mode_timed.cpp)\n15 second timer\nFalling words display")
+dot.node("timed", "TIMED MODE\n(mode_timed.cpp)\n15 second timer\ninfinite word loading")
 
 dot.node("stats", "STATS DASHBOARD\n(mode_stats.cpp)\nSFML GUI\nShows: Avg WPM, Best WPM\nAvg Accuracy, Recent Tests",
          fillcolor=color_stats, fontcolor="white")
@@ -46,16 +49,13 @@ dot.attr("node", shape="box", style="filled,rounded",
          fillcolor=color_core, fontcolor="white")
 dot.node("typing_state", "TypingState\n(typing_state.hpp)\nManages: input, items,\ncorrectness, WPM, accuracy")
 dot.node("game_words", "Game Loop\n(Words/Equations)\nInput handling\nSpace key validation")
+dot.node("game_timed", "Game Loop\n(Timed Mode)\nTimer thread\nDynamic word loading\nFalling words display")
 
-dot.node("stats", "STATS PAGE\n(SFML)\nrun_stats_page()",
-         fillcolor=COLOR_STATS, fontcolor="white")
+dot.attr("node", shape="box", style="filled", fillcolor=color_ui,
+         fontcolor="white")
+dot.node("ui_comp", "UI Components\n(ui_components.hpp)\nrender_words_box()\nrender_stats_box()\ncreate_default_layout()")
 
 dot.attr("node", shape="box", style="filled,rounded",
-         fillcolor=COLOR_HEADER, fontcolor="white")
-
-dot.node("gameloop", "Game Loop\nDisplay & Input")
-dot.node("calc", "Calculate\nWPM & Accuracy")
-dot.node("save", "Save Statistics\nto File")
          fillcolor=color_header, fontcolor="white")
 dot.node("calc", "Calculate Stats\ncalculate_wpm()\naccuracy percentage")
 dot.node("save", "Save Results\n(data_handler.hpp)\nto test_results.csv")
