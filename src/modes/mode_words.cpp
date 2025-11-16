@@ -31,7 +31,7 @@ void run_words_mode()
             FIXED_WORD_COUNT
         );
         
-        Stats stats = {state.wpm, state.accuracy, state.correct_count, state.total_typed};
+        Stats stats = {state.wpm, state.accuracy, state.correct_words, state.total_word_typed};
         
         LayoutElements layout;
         layout.content = content;

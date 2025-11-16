@@ -32,7 +32,7 @@ void run_equations_mode()
           FIXED_EQUATION_COUNT
       );
       
-      Stats stats = {state.wpm, state.accuracy, state.correct_count, state.total_typed};
+      Stats stats = {state.wpm, state.accuracy, state.correct_words, state.total_word_typed};
       
       LayoutElements layout;
       layout.content = content;

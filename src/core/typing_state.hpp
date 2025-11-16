@@ -11,8 +11,10 @@ struct TypingState
     std::vector<bool> correctness;
 
     int current_index = 0;
-    int correct_count = 0;
-    int total_typed = 0;
+
+    int total_word_typed = 0;
+    int correct_words = 0;
+    int correct_chars = 0;
 
     bool started = false;
 
