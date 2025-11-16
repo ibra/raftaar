@@ -50,7 +50,7 @@ void run_stats_page()
   sf::Color gray_text(160, 160, 170);
 
   sf::Font font;
-  if (!font.loadFromFile("assets/arial.ttf"))
+  if (!font.loadFromFile("assets/montserrat.ttf"))
     return;
 
   // load the test data from the csv file
