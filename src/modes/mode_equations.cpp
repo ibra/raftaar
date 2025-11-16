@@ -25,6 +25,11 @@ void run_equations_mode()
 
     auto renderer = Renderer(container, [&]
                              {
+    if (state.finished) {
+            Stats stats = {state.wpm, state.accuracy, state.correct_words, state.total_words};
+            return create_finished_layout(stats, back_button);
+    }    
+
       auto content = render_words_box(
           state.items,
           state.correctness,
