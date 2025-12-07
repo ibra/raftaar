@@ -42,7 +42,3 @@
 
 # build directory 
 build/
-
-# generated pdf files for the project submission
-guide/guide.pdf
-guide/flowchart.pdf
